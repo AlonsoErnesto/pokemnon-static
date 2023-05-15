@@ -21,7 +21,7 @@ const pokemonbynamepage:React.FC<PokemonPageProps> = ({pokemon}) => {
   const onToggleFavorite = () => {
     localFavorites.toggleFavorite(pokemon.id);
     setIsInFavorites(!isInFavorites);
-    if(!isInFavorites) return;
+    if(isInFavorites) return;
     confetti({
       zIndex:999, 
       particleCount:100,
