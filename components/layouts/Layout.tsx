@@ -25,7 +25,7 @@ const Layout:React.FC<LayoutProps> = ({children, titlePage}) => {
          <meta property='og:description' content={`Esta es la pagina de ${titlePage}`}/>
          {/* Se recomienda usar URL de la imagen estatica, como aqui*/}
          {/* De forma DINAMICA (props) es recomendado no hacerlo  */}
-         <meta property='og:image' content={`${origin}/img/banner.png`}/>
+         <meta property='og:image' content={`${origin}/img/banner.jpg`}/>
 
       </Head>
       <Navbar/>
