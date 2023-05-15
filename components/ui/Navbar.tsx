@@ -22,16 +22,11 @@ export const Navbar = () => {
         height={70}
       />
       <NextLink href="/" passHref>
-        <Link>
-          <Text color="white" h2>P</Text>
-          <Text color="white" h3>okemon</Text>
-        </Link>
+          <Text color="white" h2>Pokemon</Text>
       </NextLink>
       <Spacer css={{flex:1}}/>
       <NextLink href="/favoritos" passHref>
-        <Link css={{paddingRight:'20px'}}>
           <Text color="white">Favoritos</Text>
-        </Link>
       </NextLink>
     </div>
   )

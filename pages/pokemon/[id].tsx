@@ -7,9 +7,9 @@ import { localFavorites } from "@/utils";
 import { pokeApi } from "@/api";
 import { Layout } from "@/components/layouts";
 import { Pokemon } from "@/interfaces";
+import confetti from 'canvas-confetti';
+import getPokemonInfo from "@/utils/getPokemonInfo";
 // CSS
-
-
 
 
 interface PokemonPageProps {
@@ -19,13 +19,23 @@ interface PokemonPageProps {
 
 const PokemonPage:React.FC<PokemonPageProps> = ({pokemon}) => {
 
-
   const pokeExist = localFavorites.existInFavorites(pokemon.id);
   const [isInFavorites, setIsInFavorites] = useState(pokeExist);
 
   const onToggleFavorite = () => {
     localFavorites.toggleFavorite(pokemon.id);
-    setIsInFavorites(!isInFavorites)
+    setIsInFavorites(!isInFavorites);
+    if(!isInFavorites) return;
+    confetti({
+      zIndex:999, 
+      particleCount:100,
+      spread:160, // 160px
+      angle:-100,
+      origin : {
+        x:1,
+        y:.1,
+      }
+    })
   }
 
   return (
@@ -95,9 +105,8 @@ const PokemonPage:React.FC<PokemonPageProps> = ({pokemon}) => {
 // Ejecuta primero los getStaticPaths
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
+  // Se generan los 151 paginas con el parametro de "id"
   const pokemons:string[] = [...Array(151)].map((value,index)=>`${index+1}`);
-
-
   return {
     paths : pokemons.map(id=>({
       params:{id}
@@ -112,11 +121,10 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const { id } = ctx.params as { id : string };
-  const {data} = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
-
+  const pokemon = await getPokemonInfo(id);
   return {
     props: {
-      pokemon : data
+      pokemon
     }
   }
 }
