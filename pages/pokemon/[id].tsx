@@ -112,7 +112,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
       params:{id}
     })),
     // 404 para paginas que no estemos creando en paths.params
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
@@ -122,10 +122,20 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const { id } = ctx.params as { id : string };
   const pokemon = await getPokemonInfo(id);
+  if(!pokemon) {
+    return {
+      redirect: {
+        destination : '/',
+        permanent   : false
+      }
+    }
+  }
+
   return {
     props: {
       pokemon
-    }
+    },
+    revalidate:86400 //segundos // 60 * 60 * 24
   }
 }
 
